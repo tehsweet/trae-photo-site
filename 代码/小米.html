@@ -1,0 +1,710 @@
+<html lang="zh-CN">
+
+<head>
+  <!-- 字符编码：让中文不乱码 -->
+  <meta charset="UTF-8">
+  <!-- 视口设置：让手机上也按屏幕宽度正常显示，而不是缩小成一小页 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>林小满 · 自我简介</title>
+
+  <style>
+    /* ========== 1. 全局变量与基础设置 ========== */
+    /* :root 相当于"全站调色板"，改这里一处，整站颜色跟着变 */
+    :root {
+      --bg: #f7f5f0;
+      /* 页面底色（米白） */
+      --ink: #14161a;
+      /* 主要文字（近黑） */
+      --muted: #6b7076;
+      /* 次要文字（灰） */
+      --accent: #1f6b57;
+      /* 强调色（墨绿） */
+      --line: #e3ded3;
+      /* 分隔线颜色 */
+      --card: #ffffff;
+      /* 卡片底色 */
+    }
+
+    /* * 表示"所有元素"，统一清掉浏览器默认的边距，避免各处对不齐 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      /* 点击导航链接时平滑滚动，而不是"啪"一下跳过去 */
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      /* 字体栈：优先用系统里的中文字体，找不到就逐级往回退 */
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei",
+        "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 全站通用"内容容器"：限制最大宽度 + 左右留白，让内容居中不贴边 */
+    .wrap {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      /* 左右自动居中 */
+      padding: 0 24px;
+    }
+
+    /* ========== 2. 导航栏 ========== */
+    .navbar {
+      position: sticky;
+      /* 吸顶：页面往下滚，导航栏一直停在顶部 */
+      top: 0;
+      z-index: 100;
+      /* 层级最高，盖在内容上面 */
+      background: rgba(247, 245, 240, 0.82);
+      /* 半透明底色 */
+      backdrop-filter: blur(10px);
+      /* 背后内容做高斯模糊，形成毛玻璃效果 */
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, background .3s;
+    }
+
+    /* 页面滚动后，JS 会给导航栏加上 .scrolled 类，显示出底部分隔线 */
+    .navbar.scrolled {
+      border-bottom-color: var(--line);
+      background: rgba(247, 245, 240, 0.95);
+    }
+
+    /* 导航栏内部一行：左 logo、中间链接、右按钮 */
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    /* Logo 文字。用 <a> 包着，点它就能回到首页 */
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .logo .dot {
+      color: var(--accent);
+    }
+
+    /* 小圆点的颜色 */
+
+    /* 导航链接组 */
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      /* 去掉小圆点 */
+    }
+
+    .nav-links a {
+      position: relative;
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 0;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    /* 当前所在区块的链接高亮：文字变绿 + 下方一条短横线 */
+    .nav-links a.active {
+      color: var(--accent);
+    }
+
+    .nav-links a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    /* 手机上的"汉堡"按钮，桌面端先隐藏，见第 7 节媒体查询 */
+    .menu-btn {
+      display: none;
+      font-size: 20px;
+      background: none;
+      border: 0;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    /* ========== 3. 首屏 Hero（进来第一眼看到的部分） ========== */
+    .hero {
+      /* 用"内边距"把内容推到页面中间，上下留出呼吸空间 */
+      padding: 96px 0 104px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      /* 左边文字宽一点，右边头像窄一点 */
+      gap: 48px;
+      align-items: center;
+    }
+
+    /* 小标题：等宽字母，做出杂志感 */
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      /* clamp(最小值, 随屏幕变化, 最大值)：字号自适应，手机上也不会太大 */
+      font-size: clamp(2.1rem, 6vw, 3.6rem);
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      font-weight: 800;
+    }
+
+    .hero h1 span {
+      color: var(--accent);
+    }
+
+    /* 姓名部分用强调色 */
+
+    .hero p {
+      margin-top: 24px;
+      max-width: 460px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    /* 两个按钮横排 */
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 999px;
+      /* 超大圆角 = 胶囊形状 */
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--ink);
+      transition: transform .2s, background .2s, color .2s;
+    }
+
+    .btn-solid {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .btn-solid:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      color: var(--ink);
+    }
+
+    .btn-ghost:hover {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    /* 右侧头像：一个圆，里面是姓氏的字母/字，纯 CSS 画出来的 */
+    .avatar {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      /* 永远保持正方形 */
+      max-width: 300px;
+      margin-left: auto;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      /* 让里面的字水平垂直居中 */
+      font-size: 84px;
+      font-weight: 700;
+      color: #fff;
+      /* 渐变背景：从墨绿到深青 */
+      background: linear-gradient(140deg, #1f6b57, #143f46);
+      box-shadow: 0 20px 40px -20px rgba(20, 63, 70, .6);
+    }
+
+    /* ========== 4. 各内容区块的通用排版 ========== */
+    .section {
+      padding: 84px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    /* 区块标题：左边一条短竖线 + 标题文字 */
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .section-head .num {
+      font-size: 12px;
+      letter-spacing: .2em;
+      color: var(--accent);
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+      letter-spacing: -.01em;
+    }
+
+    /* ========== 5. 关于我 ========== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 60px;
+    }
+
+    .about-text p+p {
+      margin-top: 16px;
+    }
+
+    /* 段落之间留空，不要挤在一起 */
+    .about-text p {
+      color: #3d4249;
+    }
+
+    /* 右侧资料表：一行一个键值对 */
+    .facts {
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+
+    .facts li {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .facts li .k {
+      color: var(--muted);
+    }
+
+    .facts li .v {
+      font-weight: 600;
+    }
+
+    /* ========== 6. 技能 ========== */
+    .skills-grid {
+      display: grid;
+      /* auto-fit + minmax：一行能放几个就放几个，太窄就自动换行 */
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 22px;
+    }
+
+    .skill-card .head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .skill-card .pct {
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .skill-card small {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* 进度条外框（灰底） */
+    .bar {
+      height: 6px;
+      background: #eceae3;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    /* 进度条里的填充：宽度默认 0，等 JS 读到真实数值再撑开 → 就形成了"加载动画" */
+    .bar i {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      transition: width 1s cubic-bezier(.16, .84, .44, 1);
+    }
+
+    /* ========== 7. 联系方式 ========== */
+    .contact-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .contact-list a {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--ink);
+      background: var(--card);
+      transition: border-color .2s, transform .2s;
+    }
+
+    .contact-list a:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .contact-list a span.label {
+      font-size: 12px;
+      letter-spacing: .12em;
+      color: var(--muted);
+    }
+
+    .contact-list a span.value {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    /* ========== 8. 页脚 ========== */
+    footer {
+      padding: 40px 0 56px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ========== 9. 手机端适配（媒体查询） ========== */
+    /* 当屏幕宽度 <= 780px 时，下面的规则才生效 */
+    @media (max-width: 780px) {
+
+      /* 单列排布：左文字右头像改成上下结构 */
+      .hero-grid,
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .avatar {
+        max-width: 180px;
+        margin: 0;
+        font-size: 56px;
+      }
+
+      .hero {
+        padding: 60px 0 64px;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      /* 把导航链接变成一个下拉面板，默认隐藏 */
+      .nav-links {
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--line);
+        padding: 8px 24px 16px;
+        display: none;
+      }
+
+      /* 点过汉堡按钮后 JS 加上 .open，面板才显示 */
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-links a.active::after {
+        display: none;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      /* 手机上才显示汉堡按钮 */
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========== 导航栏 ========== -->
+  <!-- <header> 表示页面顶部区域；navbar 让它吸在顶部 -->
+  <header class="navbar" id="navbar">
+    <div class="wrap nav-inner">
+      <a href="#home" class="logo">古风小说<span class="dot">.</span></a>
+
+      <!-- 导航链接：href 里的 #xxx 对应下面各 section 的 id，
+           浏览器会自动跳过去，配合 CSS 的 smooth 就是平滑滚动 -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="active">首页</a></li>
+        <li><a href="#about" class="">关于我</a></li>
+        <li><a href="#skills">技能</a></li>
+        <li><a href="#contact">联系</a></li>
+        <li><a href="照片.html">作品</a></li>
+      </ul>
+
+      <!-- 手机端才会显示的菜单按钮，☰ 是 Unicode 符号 -->
+      <button class="menu-btn" id="menuBtn" aria-label="打开菜单">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========== 首屏 ========== -->
+    <section class="hero" id="home">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Hello, World</div>
+          <h1>我是<br><span>古风小说</span></h1>
+          <p>软件工程专业的大二学生，喜欢把想法做成看得见的东西。日常在画图、玩崩铁、看抖音、看小说。</p>
+          <div class="hero-actions">
+            <a href="#about" class="btn btn-solid">了解我</a>
+            <a href="#contact" class="btn btn-ghost">联系我</a>
+          </div>
+        </div>
+        <div class="avatar" aria-hidden="true">田</div>
+      </div>
+    </section>
+
+    <!-- ========== 关于我 ========== -->
+    <!-- id="about" 是导航栏 #about 的跳转目标 -->
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="num">01</span>
+          <h2>关于我</h2>
+        </div>
+
+        <div class="about-grid">
+          <!-- 左栏：几段自我介绍，改这里的文字就是改内容 -->
+          <div class="about-text">
+            <p>我叫什么，你猜。用网页来记录我的生活，可以说AI时代还是太好用了，对于我们这些学生来说，懂点代码知识就可以自己精细化的制作自己的网站。</p>
+            <p>基础：HTML 负责结构和内容，CSS 负责颜色、排版和动画，JavaScript 负责页面上的交互反应。以后，我还会时不时的学习新技术，来更新自己的作品。</p>
+            <p>想看我画画的在网站里自己找，现在还没做好，等哪天找到我的画了说明我心血又来潮了。当然，这个网站不是我手打的，用了AI,但我改了些小细节，自己找。</p>
+            <p>像留言的，github上是可以输入的，聊天，建议，都欢迎。</p>
+          </div>
+
+          <!-- 右栏：资料清单，一行一项 -->
+          <ul class="facts">
+            <li><span class="k">坐标</span><span class="v">南京</span></li>
+            <li><span class="k">学校</span><span class="v">南京财经大学</span></li>
+            <li><span class="k">专业</span><span class="v">软件工程</span></li>
+            <li><span class="k">方向</span><span class="v">前端开发 / 美术（可能）</span></li>
+            <li><span class="k">爱好</span><span class="v">· 画图 · 玩崩铁 · 看抖音 · 看小说</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 技能 ========== -->
+    <section class="section" id="skills">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="num">02</span>
+          <h2>技能</h2>
+        </div>
+
+        <!-- 每张卡片里的 data-value 是百分比数字，
+             JS 会读它来撑开进度条，改数字即可（0~100） -->
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="head"><span>HTML / CSS</span><span class="pct">22%</span></div>
+            <div class="bar"><i data-value="22" style="width: 22%;"></i></div>
+            <small>能看懂，不会做，舍友说我不适合做前端</small>
+          </div>
+
+          <div class="skill-card">
+            <div class="head"><span>JavaScript</span><span class="pct">10%</span></div>
+            <div class="bar"><i data-value="10" style="width: 10%;"></i></div>
+            <small>正在学习...</small>
+          </div>
+
+          <div class="skill-card">
+            <div class="head"><span>剪辑</span><span class="pct">1%</span></div>
+            <div class="bar"><i data-value="1" style="width: 1%;"></i></div>
+            <small>要钱，看过抖音小技巧，要是剪映免费，我就会用。</small>
+          </div>
+
+          <div class="skill-card">
+            <div class="head"><span>绘画</span><span class="pct">50%</span></div>
+            <div class="bar"><i data-value="50" style="width: 50%;"></i></div>
+            <small>素描四级，现在在平板上画画</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 联系方式 ========== -->
+    <section class="section" id="contact">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="num">03</span>
+          <h2>联系我
+          </h2>
+        </div>
+
+        <!-- 这里的邮箱和 GitHub 都是示例，换成自己的真实地址即可 -->
+        <div class="contact-list">
+          <a href="mailto:hello@example.com">
+            <span class="label">EMAIL</span>
+            <span class="value">hello@example.com</span>
+          </a>
+          <a href="https://github.com/" target="_blank" rel="noopener">
+            <span class="label">GITHUB</span>
+            <span class="value">github.com/tehsweet</span>
+          </a>
+          <a href="#home">
+            <span class="label">ALSO</span>
+            <span class="value">社恐</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== 页脚 ========== -->
+  <footer class="wrap">
+    <span>© 2026 古风小说</span>
+    <span>用 HTML · CSS · JavaScript 手写完成</span>
+  </footer>
+
+  <!-- ============================================================
+       JavaScript：负责"页面会动"的部分，共 4 个小功能
+       1. 手机端菜单展开 / 收起
+       2. 滚动时自动高亮当前区块的导航项
+       3. 技能进度条滚动到可视区域后才播放动画
+       4. 页面滚动后导航栏显示分隔线
+       ============================================================ -->
+  <script>
+    /* ---------- 功能 1：手机端菜单开关 ---------- */
+    // 把需要操作的元素找出来存成变量，后面反复用
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    // addEventListener('click', 函数)：点击按钮时执行花括号里的代码
+    menuBtn.addEventListener('click', () => {
+      // classList.toggle('open')：有这个类就删掉，没有就加上（来回切换显示/隐藏）
+      navLinks.classList.toggle('open');
+      // 按钮图标也跟着变：展开时显示 ✕，收起时显示 ☰
+      menuBtn.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+    });
+
+    // 点击任意一个导航链接后，自动把菜单收起来（手机上的常见体验）
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.textContent = '☰';
+      });
+    });
+
+    /* ---------- 功能 2：滚动高亮当前导航项 ---------- */
+    const sections = document.querySelectorAll('main section'); // 4 个区块
+    const links = document.querySelectorAll('.nav-links a');     // 4 个链接
+
+    function highlightNav() {
+      // 让当前滚动位置往下挪 80px，避免"刚进入区块"时判定不准
+      const pos = window.scrollY + 80;
+      let currentId = 'home';
+
+      // 遍历每个区块：如果它的顶部已经在屏幕上方，就记成当前区块
+      sections.forEach((sec) => {
+        if (sec.offsetTop <= pos) currentId = sec.id;
+      });
+
+      // 清掉所有链接的 active，只给对应的那个加上
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
+      });
+    }
+
+    // 'scroll' 事件：用户每次滚动都会调用 highlightNav
+    window.addEventListener('scroll', highlightNav);
+    highlightNav(); // 页面刚打开时先跑一次，保证初始状态正确
+
+    /* ---------- 功能 3：技能进度条动画 ---------- */
+    // IntersectionObserver：专门用来"检测某个元素有没有进入可视区域"
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;   // 还没滚到就先不管
+
+        const bar = entry.target;                      // 进度条填充部分
+        const value = Number(bar.dataset.value);       // 读出 data-value 的数字
+        const pctText = bar.closest('.skill-card').querySelector('.pct'); // 旁边的百分比文字
+
+        bar.style.width = value + '%';                 // 撑开进度条（CSS 里有 1s 过渡）
+
+        // 数字从 0 数到目标值，让百分比跟着一起涨
+        let n = 0;
+        const timer = setInterval(() => {
+          n += 2;
+          if (n >= value) { n = value; clearInterval(timer); } // 到了就停
+          pctText.textContent = n + '%';
+        }, 20);
+
+        observer.unobserve(bar);   // 播放过一次就不再重复监听
+      });
+    }, { threshold: 0.5 });       // threshold: 露出 50% 就算"进入可视区域"
+
+    document.querySelectorAll('.bar i').forEach((bar) => observer.observe(bar));
+
+    /* ---------- 功能 4：滚动后导航栏加分隔线 ---------- */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      // 滚动超过 10px 就加 .scrolled，回到顶部则去掉
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    });
+  </script>
+
+
+</body>
+
+</html>

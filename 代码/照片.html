@@ -1,0 +1,700 @@
+<html lang="zh-CN">
+
+<head>
+  <!-- 字符编码：让中文不乱码 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>古风小说 · 作品照片</title>
+
+  <style>
+    :root {
+      --bg: #f7f5f0;
+      --ink: #14161a;
+      --muted: #6b7076;
+      --accent: #1f6b57;
+      --line: #e3ded3;
+      --card: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei",
+        "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ========== 导航栏（与首页样式保持一致） ========== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247, 245, 240, 0.82);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, background .3s;
+    }
+
+    .navbar.scrolled {
+      border-bottom-color: var(--line);
+      background: rgba(247, 245, 240, 0.95);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .logo .dot {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      position: relative;
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 0;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-links a.active {
+      color: var(--accent);
+    }
+
+    .nav-links a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .menu-btn {
+      display: none;
+      font-size: 20px;
+      background: none;
+      border: 0;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    /* ========== 页面头部 ========== */
+    .page-head {
+      padding: 72px 0 56px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .page-head h1 {
+      font-size: clamp(2rem, 5.4vw, 3.2rem);
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      font-weight: 800;
+    }
+
+    .page-head h1 span {
+      color: var(--accent);
+    }
+
+    .page-head p {
+      margin-top: 20px;
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .page-head .back {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background .2s, color .2s, transform .2s;
+    }
+
+    .page-head .back:hover {
+      background: var(--ink);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* ========== 照片墙 ========== */
+    .gallery-section {
+      padding: 8px 0 96px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 32px;
+      padding-top: 40px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head .num {
+      font-size: 12px;
+      letter-spacing: .2em;
+      color: var(--accent);
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+      letter-spacing: -.01em;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
+      align-items: start;
+    }
+
+    .photo-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 34px -22px rgba(20, 63, 70, .45);
+    }
+
+    .photo-card .pic {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #eceae3;
+    }
+
+    .photo-card .info {
+      padding: 16px 18px 18px;
+    }
+
+    .photo-card .info h3 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .01em;
+    }
+
+    .photo-card .info p {
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .photo-card .tag {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 11px;
+      letter-spacing: .12em;
+      color: var(--accent);
+    }
+
+    /* 可编辑的文字：点一下就能改，改完自动保存在本浏览器 */
+    .photo-card [contenteditable] {
+      outline: none;
+      border-radius: 4px;
+      transition: background .2s, box-shadow .2s;
+    }
+
+    .photo-card [contenteditable]:hover {
+      background: #f2f0ea;
+    }
+
+    .photo-card [contenteditable]:focus {
+      background: #fffbe8;
+      box-shadow: 0 0 0 2px rgba(31, 107, 87, .25);
+    }
+
+    /* 区块标题右侧的小提示 */
+    .edit-hint {
+      margin-left: auto;
+      align-self: flex-end;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* 最后一张"待上传"卡片：虚线框，点它复制照片文件夹路径 */
+    .photo-card.add-card {
+      border-style: dashed;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 240px;
+      padding: 28px 20px;
+      text-align: center;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .photo-card.add-card:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .photo-card.add-card .plus {
+      font-size: 32px;
+      line-height: 1;
+      color: var(--accent);
+      font-weight: 300;
+    }
+
+    .photo-card.add-card strong {
+      font-size: 15px;
+      color: var(--ink);
+    }
+
+    .photo-card.add-card small {
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .photo-card.add-card .path {
+      max-width: 100%;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #efece4;
+      font-family: ui-monospace, Consolas, "Courier New", monospace;
+      font-size: 11px;
+      word-break: break-all;
+      color: var(--muted);
+    }
+
+    .photo-card.add-card .tip {
+      font-size: 12px;
+    }
+
+    .photo-card.add-card .open-tab {
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    .photo-card.add-card.copied {
+      border-color: var(--accent);
+    }
+
+    /* ========== 页脚 ========== */
+    footer {
+      padding: 40px 0 56px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+    }
+
+    footer a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ========== 手机端适配 ========== */
+    @media (max-width: 780px) {
+      .page-head {
+        padding: 52px 0 40px;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--line);
+        padding: 8px 24px 16px;
+        display: none;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-links a.active::after {
+        display: none;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========== 导航栏 ========== -->
+  <header class="navbar" id="navbar">
+    <div class="wrap nav-inner">
+      <a href="小米.html#home" class="logo">古风小说<span class="dot">.</span></a>
+
+      <!-- 这是第二个网页，导航链接都指回首页 小米.html 对应的锚点 -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="小米.html#home">首页</a></li>
+        <li><a href="小米.html#about">关于我</a></li>
+        <li><a href="小米.html#skills">技能</a></li>
+        <li><a href="小米.html#contact">联系</a></li>
+        <li><a href="照片.html" class="active">作品</a></li>
+      </ul>
+
+      <button class="menu-btn" id="menuBtn" aria-label="打开菜单">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========== 页面头部 ========== -->
+    <section class="page-head">
+      <div class="wrap">
+        <div class="eyebrow">Works / Photos</div>
+        <h1>我的<span>作品</span>与照片</h1>
+        <p>平时画的一些小画、随手拍的照片，都放在这里。画得不一定好，但每一张都花过时间。</p>
+        <a href="小米.html" class="back">← 返回首页</a>
+      </div>
+    </section>
+
+    <!-- ========== 照片墙 ========== -->
+    <section class="gallery-section">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="num">01</span>
+          <h2>画画 / 照片</h2>
+          <span class="edit-hint">标题和简介可直接点开修改</span>
+        </div>
+
+        <div class="gallery">
+          <!--
+            ===== 下次放新照片的通道 =====
+            1. 把图片放进上一级目录的「照片」文件夹；
+            2. 双击本目录下的「更新照片.bat」，它会扫描文件夹并重写 photos-data.js；
+            3. 重新打开或刷新本页，新照片会自动补成卡片（标题、标签都能点开改）。
+            不想用 bat 的话，也可以手动复制下面这段卡片粘进来。
+
+            <div class="photo-card" data-key="文件名.jpg">
+              <img class="pic" alt="图片说明" src="../照片/文件名.jpg">
+              <div class="info">
+                <span class="tag" contenteditable="true" data-field="tag">TAG</span>
+                <h3 contenteditable="true" data-field="title">标题</h3>
+                <p contenteditable="true" data-field="desc">一句话说明。</p>
+              </div>
+            </div>
+          -->
+
+          <div class="photo-card" data-key="11.20图1.jpg">
+            <img class="pic" alt="11月20日线稿" src="../照片/11.20图1.jpg">
+            <div class="info">
+              <span class="tag" contenteditable="true" data-field="tag">SKETCH</span>
+              <h3 contenteditable="true" data-field="title">起稿 · 11.20</h3>
+              <p contenteditable="true" data-field="desc">照着参考图起的线稿，发丝改了好几遍。</p>
+            </div>
+          </div>
+
+          <div class="photo-card" data-key="11.21图2.jpg">
+            <img class="pic" alt="11月21日红发上色" src="../照片/11.21图2.jpg">
+            <div class="info">
+              <span class="tag" contenteditable="true" data-field="tag">COLOR</span>
+              <h3 contenteditable="true" data-field="title">上色 · 11.21</h3>
+              <p contenteditable="true" data-field="desc">红黑白三色，只在眼睛里留了一点绿。</p>
+            </div>
+          </div>
+
+          <div class="photo-card" data-key="11.21图3.jpg">
+            <img class="pic" alt="错位故障特效" src="../照片/11.21图3.jpg">
+            <div class="info">
+              <span class="tag" contenteditable="true" data-field="tag">FX</span>
+              <h3 contenteditable="true" data-field="title">错位故障</h3>
+              <p contenteditable="true" data-field="desc">加了个错位故障特效，整张图一下就炸了。</p>
+            </div>
+          </div>
+
+          <div class="photo-card" data-key="初上色图4.jpg">
+            <img class="pic" alt="初上色练习" src="../照片/初上色图4.jpg">
+            <div class="info">
+              <span class="tag" contenteditable="true" data-field="tag">COLOR</span>
+              <h3 contenteditable="true" data-field="title">初上色</h3>
+              <p contenteditable="true" data-field="desc">第一次完整上色，颜色还软软的。</p>
+            </div>
+          </div>
+
+          <div class="photo-card" data-key="草稿图5.jpg">
+            <img class="pic" alt="色彩草稿" src="../照片/草稿图5.jpg">
+            <div class="info">
+              <span class="tag" contenteditable="true" data-field="tag">DRAFT</span>
+              <h3 contenteditable="true" data-field="title">色彩草稿</h3>
+              <p contenteditable="true" data-field="desc">笔刷随便涂的草稿，色块比线更带劲。</p>
+            </div>
+          </div>
+
+          <div class="photo-card" data-key="素描图6.jpg">
+            <img class="pic" alt="铅笔笔刷素描" src="../照片/素描图6.jpg">
+            <div class="info">
+              <span class="tag" contenteditable="true" data-field="tag">SKETCH</span>
+              <h3 contenteditable="true" data-field="title">素描头像</h3>
+              <p contenteditable="true" data-field="desc">铅笔笔刷画的人像，排线还得继续练。</p>
+            </div>
+          </div>
+
+          <div class="photo-card" data-key="手拍.jpg">
+            <img class="pic" alt="李莫愁" src="../照片/手拍.jpg">
+            <div class="info">
+              <span class="tag" contenteditable="true" data-field="tag">PHOTO</span>
+              <h3 contenteditable="true" data-field="title">手拍 · 纸上</h3>
+              <p contenteditable="true" data-field="desc">同一张初上色稿打印出来，拿手机拍了一张。</p>
+            </div>
+          </div>
+
+          <!-- 下一张照片的入口：点击复制文件夹路径，不会覆盖当前页面 -->
+          <div class="photo-card add-card" id="addCard" role="button" tabindex="0" title="点击复制照片文件夹路径">
+            <span class="plus">＋</span>
+            <strong>下一张，等你上传</strong>
+            <span class="path" id="folderPath">C:\Users\37665\Desktop\trae cn\照片</span>
+            <span class="tip" id="addTip">点我复制路径，再按 Win + E 粘贴到地址栏回车</span>
+            <a class="open-tab" href="../照片/" target="_blank" rel="noopener"
+              onclick="event.stopPropagation()">或在新标签页查看文件夹</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <span>© 2026 古风小说</span>
+    <span><a href="小米.html">返回首页</a></span>
+  </footer>
+
+  <!-- 这个文件由「更新照片.bat」自动生成，里面是 照片 文件夹里的图片清单 -->
+  <script src="photos-data.js"></script>
+
+  <script>
+    /* 手机端菜单开关 */
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      menuBtn.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+    });
+
+    /* 滚动后导航栏显示分隔线 */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    /* ---------- 照片说明：点文字就能改 ---------- */
+    // 改完的文字存在浏览器的 localStorage 里，下次打开还在
+    const STORAGE_KEY = 'photo-captions-v1';
+    let savedCaptions = {};
+    try {
+      savedCaptions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    } catch (e) {
+      savedCaptions = {};   // 浏览器禁用存储时，退化成只在当前页面生效
+    }
+
+    // 给一张卡片上的文字绑定"可编辑 + 自动保存"
+    function bindEditable(card) {
+      const key = card.dataset.key;
+
+      card.querySelectorAll('[contenteditable]').forEach((field) => {
+        const id = key + '|' + field.dataset.field;
+
+        // 打开页面时，先把上次保存的文字填回去
+        if (savedCaptions[id]) field.textContent = savedCaptions[id];
+
+        // 回车直接结束编辑，避免在标题里换行
+        field.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            field.blur();
+          }
+        });
+
+        // 光标离开时保存到本浏览器
+        field.addEventListener('blur', () => {
+          savedCaptions[id] = field.textContent.trim();
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(savedCaptions));
+          } catch (e) { /* 存不了就算了，不影响页面 */ }
+        });
+      });
+    }
+
+    document.querySelectorAll('.photo-card[data-key]').forEach(bindEditable);
+
+    /* ---------- 自动收录新照片 ---------- */
+    // 浏览器不能自己读本地文件夹，所以由「更新照片.bat」扫描 照片 文件夹，
+    // 把文件名写进 photos-data.js；这里照着清单，把还没出现的照片补成卡片
+    const gallery = document.querySelector('.gallery');
+    const addCardEl = document.getElementById('addCard');
+    const shown = new Set(
+      [...document.querySelectorAll('.photo-card[data-key]')].map((c) => c.dataset.key)
+    );
+
+    (window.PHOTOS || []).forEach((name) => {
+      if (shown.has(name)) return;   // 页面上已经有的（含手动写的）跳过
+
+      const card = document.createElement('div');
+      card.className = 'photo-card';
+      card.dataset.key = name;
+
+      const img = document.createElement('img');
+      img.className = 'pic';
+      img.alt = name;
+      img.src = '../照片/' + name;
+
+      const info = document.createElement('div');
+      info.className = 'info';
+
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.contentEditable = 'true';
+      tag.dataset.field = 'tag';
+      tag.textContent = 'NEW';
+
+      const title = document.createElement('h3');
+      title.contentEditable = 'true';
+      title.dataset.field = 'title';
+      title.textContent = '新照片';
+
+      const desc = document.createElement('p');
+      desc.contentEditable = 'true';
+      desc.dataset.field = 'desc';
+      desc.textContent = '新放进来的照片，点文字改说明。';
+
+      info.append(tag, title, desc);
+      card.append(img, info);
+      gallery.insertBefore(card, addCardEl);   // 插在"下一张"虚线卡片前面
+
+      bindEditable(card);   // 新卡片一样可以点开改文字
+    });
+
+    /* ---------- 照片被删掉时，连卡片一起收走 ---------- */
+    // 图片加载失败（文件被删/改名）就把整张卡片移除，不留下空框
+    function removeBrokenCard(img) {
+      const card = img.closest('.photo-card');
+      if (card) card.remove();
+    }
+
+    document.querySelectorAll('.photo-card .pic').forEach((img) => {
+      img.addEventListener('error', () => removeBrokenCard(img));
+      // 脚本执行时图片可能已经加载失败过了，这里补判一次
+      if (img.complete && img.naturalWidth === 0) removeBrokenCard(img);
+    });
+
+    /* ---------- 加号卡片：复制照片文件夹路径 ---------- */
+    // 浏览器不允许网页直接打开资源管理器，所以这里复制路径，
+    // 再到「此电脑 / 资源管理器」地址栏粘贴回车，就能打开本地文件夹
+    const addCard = document.getElementById('addCard');
+    const folderPath = document.getElementById('folderPath');
+    const addTip = document.getElementById('addTip');
+    const FOLDER = folderPath.textContent.trim();
+
+    async function copyFolderPath() {
+      let ok = false;
+
+      try {
+        await navigator.clipboard.writeText(FOLDER);
+        ok = true;
+      } catch (e) {
+        // 本地 file:// 下剪切板接口可能被拒绝，用老办法再试一次
+        const ta = document.createElement('textarea');
+        ta.value = FOLDER;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
+        ta.remove();
+      }
+
+      addCard.classList.add('copied');
+      addTip.textContent = ok
+        ? '路径已复制，按 Win + E 打开资源管理器，粘贴到地址栏回车'
+        : '复制失败，请手动选中上面的路径复制';
+      setTimeout(() => addCard.classList.remove('copied'), 1600);
+    }
+
+    addCard.addEventListener('click', copyFolderPath);
+    addCard.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        copyFolderPath();
+      }
+    });
+  </script>
+
+</body>
+
+</html>
