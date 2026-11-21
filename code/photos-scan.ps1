@@ -4,13 +4,8 @@ param([switch]$NoOpen)
 
 $ErrorActionPreference = 'Stop'
 
-# Folder / page names are built from char codes so this file stays ASCII-only
-# (Windows PowerShell 5.1 reads BOM-less files as ANSI, which would garble Chinese).
-$photoName = -join ([char[]](0x7167, 0x7247))          # 照片
-$pageName = $photoName + '.html'                        # 照片.html
-
-$root = Split-Path -Parent $PSScriptRoot
-$photoDir = Join-Path $root $photoName
+$photoDir = Join-Path (Split-Path -Parent $PSScriptRoot) 'photos'
+$pageName = 'photos.html'
 $outFile = Join-Path $PSScriptRoot 'photos-data.js'
 
 if (-not (Test-Path -LiteralPath $photoDir)) {

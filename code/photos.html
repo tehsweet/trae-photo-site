@@ -399,15 +399,15 @@
   <!-- ========== 导航栏 ========== -->
   <header class="navbar" id="navbar">
     <div class="wrap nav-inner">
-      <a href="小米.html#home" class="logo">古风小说<span class="dot">.</span></a>
+      <a href="index.html#home" class="logo">古风小说<span class="dot">.</span></a>
 
-      <!-- 这是第二个网页，导航链接都指回首页 小米.html 对应的锚点 -->
+      <!-- 这是第二个网页，导航链接都指回首页 index.html 对应的锚点 -->
       <ul class="nav-links" id="navLinks">
-        <li><a href="小米.html#home">首页</a></li>
-        <li><a href="小米.html#about">关于我</a></li>
-        <li><a href="小米.html#skills">技能</a></li>
-        <li><a href="小米.html#contact">联系</a></li>
-        <li><a href="照片.html" class="active">作品</a></li>
+        <li><a href="index.html#home">首页</a></li>
+        <li><a href="index.html#about">关于我</a></li>
+        <li><a href="index.html#skills">技能</a></li>
+        <li><a href="index.html#contact">联系</a></li>
+        <li><a href="photos.html" class="active">作品</a></li>
       </ul>
 
       <button class="menu-btn" id="menuBtn" aria-label="打开菜单">☰</button>
@@ -421,7 +421,7 @@
         <div class="eyebrow">Works / Photos</div>
         <h1>我的<span>作品</span>与照片</h1>
         <p>平时画的一些小画、随手拍的照片，都放在这里。画得不一定好，但每一张都花过时间。</p>
-        <a href="小米.html" class="back">← 返回首页</a>
+        <a href="index.html" class="back">← 返回首页</a>
       </div>
     </section>
 
@@ -437,13 +437,13 @@
         <div class="gallery">
           <!--
             ===== 下次放新照片的通道 =====
-            1. 把图片放进上一级目录的「照片」文件夹；
-            2. 双击本目录下的「更新照片.bat」，它会扫描文件夹并重写 photos-data.js；
+            1. 把图片放进上一级目录的 photos 文件夹；
+            2. 双击本目录下的 update-photos.bat，它会扫描文件夹并重写 photos-data.js；
             3. 重新打开或刷新本页，新照片会自动补成卡片（标题、标签都能点开改）。
             不想用 bat 的话，也可以手动复制下面这段卡片粘进来。
 
-            <div class="photo-card" data-key="文件名.jpg">
-              <img class="pic" alt="图片说明" src="../照片/文件名.jpg">
+            <div class="photo-card" data-key="photo-name.jpg">
+              <img class="pic" alt="图片说明" src="../photos/photo-name.jpg">
               <div class="info">
                 <span class="tag" contenteditable="true" data-field="tag">TAG</span>
                 <h3 contenteditable="true" data-field="title">标题</h3>
@@ -452,8 +452,8 @@
             </div>
           -->
 
-          <div class="photo-card" data-key="11.20图1.jpg">
-            <img class="pic" alt="11月20日线稿" src="../照片/11.20图1.jpg">
+          <div class="photo-card" data-key="sketch-1120.jpg">
+            <img class="pic" alt="11月20日线稿" src="../photos/sketch-1120.jpg">
             <div class="info">
               <span class="tag" contenteditable="true" data-field="tag">SKETCH</span>
               <h3 contenteditable="true" data-field="title">起稿 · 11.20</h3>
@@ -461,8 +461,8 @@
             </div>
           </div>
 
-          <div class="photo-card" data-key="11.21图2.jpg">
-            <img class="pic" alt="11月21日红发上色" src="../照片/11.21图2.jpg">
+          <div class="photo-card" data-key="color-1121.jpg">
+            <img class="pic" alt="11月21日红发上色" src="../photos/color-1121.jpg">
             <div class="info">
               <span class="tag" contenteditable="true" data-field="tag">COLOR</span>
               <h3 contenteditable="true" data-field="title">上色 · 11.21</h3>
@@ -470,8 +470,8 @@
             </div>
           </div>
 
-          <div class="photo-card" data-key="11.21图3.jpg">
-            <img class="pic" alt="错位故障特效" src="../照片/11.21图3.jpg">
+          <div class="photo-card" data-key="glitch-1121.jpg">
+            <img class="pic" alt="错位故障特效" src="../photos/glitch-1121.jpg">
             <div class="info">
               <span class="tag" contenteditable="true" data-field="tag">FX</span>
               <h3 contenteditable="true" data-field="title">错位故障</h3>
@@ -479,8 +479,8 @@
             </div>
           </div>
 
-          <div class="photo-card" data-key="初上色图4.jpg">
-            <img class="pic" alt="初上色练习" src="../照片/初上色图4.jpg">
+          <div class="photo-card" data-key="first-color.jpg">
+            <img class="pic" alt="初上色练习" src="../photos/first-color.jpg">
             <div class="info">
               <span class="tag" contenteditable="true" data-field="tag">COLOR</span>
               <h3 contenteditable="true" data-field="title">初上色</h3>
@@ -488,8 +488,8 @@
             </div>
           </div>
 
-          <div class="photo-card" data-key="草稿图5.jpg">
-            <img class="pic" alt="色彩草稿" src="../照片/草稿图5.jpg">
+          <div class="photo-card" data-key="color-draft.jpg">
+            <img class="pic" alt="色彩草稿" src="../photos/color-draft.jpg">
             <div class="info">
               <span class="tag" contenteditable="true" data-field="tag">DRAFT</span>
               <h3 contenteditable="true" data-field="title">色彩草稿</h3>
@@ -497,8 +497,8 @@
             </div>
           </div>
 
-          <div class="photo-card" data-key="素描图6.jpg">
-            <img class="pic" alt="铅笔笔刷素描" src="../照片/素描图6.jpg">
+          <div class="photo-card" data-key="pencil-sketch.jpg">
+            <img class="pic" alt="铅笔笔刷素描" src="../photos/pencil-sketch.jpg">
             <div class="info">
               <span class="tag" contenteditable="true" data-field="tag">SKETCH</span>
               <h3 contenteditable="true" data-field="title">素描头像</h3>
@@ -506,22 +506,13 @@
             </div>
           </div>
 
-          <div class="photo-card" data-key="手拍.jpg">
-            <img class="pic" alt="李莫愁" src="../照片/手拍.jpg">
-            <div class="info">
-              <span class="tag" contenteditable="true" data-field="tag">PHOTO</span>
-              <h3 contenteditable="true" data-field="title">手拍 · 纸上</h3>
-              <p contenteditable="true" data-field="desc">同一张初上色稿打印出来，拿手机拍了一张。</p>
-            </div>
-          </div>
-
           <!-- 下一张照片的入口：点击复制文件夹路径，不会覆盖当前页面 -->
           <div class="photo-card add-card" id="addCard" role="button" tabindex="0" title="点击复制照片文件夹路径">
             <span class="plus">＋</span>
             <strong>下一张，等你上传</strong>
-            <span class="path" id="folderPath">C:\Users\37665\Desktop\trae cn\照片</span>
+            <span class="path" id="folderPath">C:\Users\37665\Desktop\trae cn\photos</span>
             <span class="tip" id="addTip">点我复制路径，再按 Win + E 粘贴到地址栏回车</span>
-            <a class="open-tab" href="../照片/" target="_blank" rel="noopener"
+            <a class="open-tab" href="../photos/" target="_blank" rel="noopener"
               onclick="event.stopPropagation()">或在新标签页查看文件夹</a>
           </div>
         </div>
@@ -531,10 +522,10 @@
 
   <footer class="wrap">
     <span>© 2026 古风小说</span>
-    <span><a href="小米.html">返回首页</a></span>
+    <span><a href="index.html">返回首页</a></span>
   </footer>
 
-  <!-- 这个文件由「更新照片.bat」自动生成，里面是 照片 文件夹里的图片清单 -->
+  <!-- 这个文件由 update-photos.bat 自动生成，里面是 photos 文件夹里的图片清单 -->
   <script src="photos-data.js"></script>
 
   <script>
@@ -562,6 +553,26 @@
     } catch (e) {
       savedCaptions = {};   // 浏览器禁用存储时，退化成只在当前页面生效
     }
+
+    // 文件名改成英文后，把旧文件名对应的说明迁移过来，避免之前改过的文字丢失
+    const renamedFiles = {
+      '11.20图1.jpg': 'sketch-1120.jpg',
+      '11.21图2.jpg': 'color-1121.jpg',
+      '11.21图3.jpg': 'glitch-1121.jpg',
+      '初上色图4.jpg': 'first-color.jpg',
+      '草稿图5.jpg': 'color-draft.jpg',
+      '素描图6.jpg': 'pencil-sketch.jpg'
+    };
+    Object.entries(renamedFiles).forEach(([oldName, newName]) => {
+      ['tag', 'title', 'desc'].forEach((field) => {
+        const oldId = oldName + '|' + field;
+        const newId = newName + '|' + field;
+        if (savedCaptions[oldId] && !savedCaptions[newId]) {
+          savedCaptions[newId] = savedCaptions[oldId];
+        }
+        delete savedCaptions[oldId];
+      });
+    });
 
     // 给一张卡片上的文字绑定"可编辑 + 自动保存"
     function bindEditable(card) {
@@ -594,7 +605,7 @@
     document.querySelectorAll('.photo-card[data-key]').forEach(bindEditable);
 
     /* ---------- 自动收录新照片 ---------- */
-    // 浏览器不能自己读本地文件夹，所以由「更新照片.bat」扫描 照片 文件夹，
+    // 浏览器不能自己读本地文件夹，所以由 update-photos.bat 扫描 photos 文件夹，
     // 把文件名写进 photos-data.js；这里照着清单，把还没出现的照片补成卡片
     const gallery = document.querySelector('.gallery');
     const addCardEl = document.getElementById('addCard');
@@ -612,7 +623,7 @@
       const img = document.createElement('img');
       img.className = 'pic';
       img.alt = name;
-      img.src = '../照片/' + name;
+      img.src = '../photos/' + name;
 
       const info = document.createElement('div');
       info.className = 'info';
